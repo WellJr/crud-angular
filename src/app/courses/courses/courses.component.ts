@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 })
 export class CoursesComponent implements OnInit {
 
-  courses: Observable<Course[]>;
+  courses$: Observable<Course[]>; //) $ é uma prática para indicar que o dado é do tipo observable.
 
   //define as colunas que serão exibidas
   displayedColumns = ['name', 'category'];
@@ -24,7 +24,7 @@ export class CoursesComponent implements OnInit {
     // this.coursesService = new CoursesService();
 
 
-    this.courses = this.coursesService.list();
+    this.courses$ = this.coursesService.list();
 
     //outra forma:
 //    this.coursesService.list().subscribe(courses => {
