@@ -6,6 +6,7 @@ import { Course } from '../model/course';
 import { CoursesService } from './../services/courses.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from 'src/app/shared/components/error-dialog/error-dialog.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-courses',
@@ -17,14 +18,17 @@ export class CoursesComponent implements OnInit {
   courses$: Observable<Course[]>; //) $ é uma prática para indicar que o dado é do tipo observable.
 
   //define as colunas que serão exibidas
-  displayedColumns = ['name', 'category'];
+  displayedColumns = ['name', 'category', 'actions'];
 
 
  // coursesService: CoursesService;
 
   constructor(
     private coursesService: CoursesService,
-    public dialog: MatDialog) {
+    public dialog: MatDialog,
+    private router: Router,
+    private route: ActivatedRoute
+    ) {
 
     // this.courses = [];
 
@@ -53,7 +57,10 @@ export class CoursesComponent implements OnInit {
 
   ngOnInit(): void {
 
+  }
 
+  onAdd() {
+    this.router.navigate(['new'], {relativeTo: this.route});
   }
 
 }
