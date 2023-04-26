@@ -17,8 +17,6 @@ export class CoursesComponent implements OnInit {
 
   courses$: Observable<Course[]>; //) $ é uma prática para indicar que o dado é do tipo observable.
 
-  //define as colunas que serão exibidas
-  displayedColumns = ['name', 'category', 'actions'];
 
 
  // coursesService: CoursesService;
