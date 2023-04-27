@@ -46,4 +46,9 @@ export class CoursesService {
   .pipe(first());
  }
 
+ delete(id: string){
+  return this.httpClient.delete(`${this.API}/${id}`)
+  .pipe(first());
+ }
+
 }

@@ -28,7 +28,7 @@
       </button>
 
       <button mat-icon-button color="warn" aria-label="Remover Curso" class="action-column">
-        <mat-icon>delete</mat-icon>
+        <mat-icon (click)="onRemove(course)">delete</mat-icon>
       </button>
     </mat-cell>
 
