@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping(path = "/api/courses")
@@ -24,6 +25,13 @@ public class CourseController {
     @GetMapping
     public @ResponseBody List<Course> getCourses() {
         return courseRepository.findAll();
+    }
+
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<Course> findById(@PathVariable("id") Long id){
+        return courseRepository.findById(id)
+                .map(record -> ResponseEntity.ok().body(record))
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
