@@ -8,13 +8,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-@Validated
+@Validated // <-- Para reconhecer validações a nivel de classe
 @RestController
 @RequestMapping(path = "/api/courses")
 public class CourseController {
