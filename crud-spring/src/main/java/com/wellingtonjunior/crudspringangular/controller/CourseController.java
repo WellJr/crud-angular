@@ -2,7 +2,7 @@ package com.wellingtonjunior.crudspringangular.controller;
 
 import com.wellingtonjunior.crudspringangular.domain.Course;
 import com.wellingtonjunior.crudspringangular.repository.CourseRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.wellingtonjunior.crudspringangular.service.CourseService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -12,7 +12,6 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Validated // <-- Para reconhecer validações a nivel de classe
 @RestController
@@ -20,21 +19,21 @@ import java.util.NoSuchElementException;
 public class CourseController {
 
 
-    private final CourseRepository courseRepository;
+    private final CourseService courseService;
 
     // Dependency Injection
-    public CourseController(CourseRepository courseRepository) {
-        this.courseRepository = courseRepository;
+    public CourseController(CourseRepository courseRepository, CourseService courseService) {
+        this.courseService = courseService;
     }
 
     @GetMapping
     public @ResponseBody List<Course> getCourses() {
-        return courseRepository.findAll();
+        return courseService.findAll();
     }
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<Course> findById(@PathVariable("id") @NotNull @Positive Long id){
-        return courseRepository.findById(id)
+        return courseService.findById(id)
                 .map(recordFound -> ResponseEntity.ok().body(recordFound))
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -42,29 +41,23 @@ public class CourseController {
     @PostMapping
 //    @ResponseStatus(code = HttpStatus.CREATED) <-- forma alternativa ao response entity
     public ResponseEntity<Course> save(@RequestBody @Valid Course course){
-        return ResponseEntity.status(HttpStatus.CREATED).body(courseRepository.save(course));
+        return ResponseEntity.status(HttpStatus.CREATED).body(courseService.save(course));
     }
 
     @PutMapping(path = "/{id}")
     public ResponseEntity<Course> update(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid Course course) {
 
-        return courseRepository.findById(id)
-                .map(recordFound -> {
-                    recordFound.setName(course.getName());
-                    recordFound.setCategory(course.getCategory());
-                    Course updated = courseRepository.save(recordFound);
-                    return ResponseEntity.ok().body(updated);
-                })
+        return courseService.update(id, course)
+                .map(recordFound -> ResponseEntity.ok().body(recordFound))
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable @NotNull @Positive Long id) {
-        return courseRepository.findById(id)
-                .map(recordFound -> {
-                    courseRepository.deleteById(recordFound.getId());
-                    return ResponseEntity.noContent().<Void>build();
-                })
-                .orElse(ResponseEntity.notFound().build());
+
+        if(courseService.delete(id)){
+            return ResponseEntity.noContent().<Void>build();
+        }
+        return ResponseEntity.notFound().build();
     }
 }
