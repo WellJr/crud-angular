@@ -1,6 +1,7 @@
 package com.wellingtonjunior.crudspringangular.service;
 
 import com.wellingtonjunior.crudspringangular.domain.Course;
+import com.wellingtonjunior.crudspringangular.exeption.RecordNotFoundException;
 import com.wellingtonjunior.crudspringangular.repository.CourseRepository;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -29,31 +30,32 @@ public class CourseService {
         return courseRepository.findAll();
     }
 
-    public Optional<Course> findById(@NotNull @Positive Long id){
-        return courseRepository.findById(id);
+    public Course findById(@NotNull @Positive Long id){
+
+        return courseRepository.findById(id).orElseThrow(() -> new RecordNotFoundException(id));
+
     }
 
     public Course save(@Valid Course course){
         return courseRepository.save(course);
     }
 
-    public Optional<Course> update(@NotNull @Positive Long id, @Valid Course course) {
+    public Course update(@NotNull @Positive Long id, @Valid Course course) {
 
         return courseRepository.findById(id)
                 .map(recordFound -> {
                     recordFound.setName(course.getName());
                     recordFound.setCategory(course.getCategory());
                     return courseRepository.save(recordFound);
-                });
+                }).orElseThrow(() -> new RecordNotFoundException(id));
     }
 
-    public boolean delete(@NotNull @Positive Long id) {
-        return courseRepository.findById(id)
-                .map(recordFound -> {
-                    courseRepository.deleteById(recordFound.getId());
-                    return true;
-                })
-                .orElse(false);
+    public void delete(@NotNull @Positive Long id) {
+
+        courseRepository.delete(
+                courseRepository.findById(id)
+                        .orElseThrow(() -> new RecordNotFoundException(id))
+        );
     }
 
 
