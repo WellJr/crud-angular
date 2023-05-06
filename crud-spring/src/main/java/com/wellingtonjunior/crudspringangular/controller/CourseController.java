@@ -1,6 +1,7 @@
 package com.wellingtonjunior.crudspringangular.controller;
 
 import com.wellingtonjunior.crudspringangular.domain.Course;
+import com.wellingtonjunior.crudspringangular.dto.CourseDTO;
 import com.wellingtonjunior.crudspringangular.repository.CourseRepository;
 import com.wellingtonjunior.crudspringangular.service.CourseService;
 import org.springframework.http.HttpStatus;
@@ -27,23 +28,23 @@ public class CourseController {
     }
 
     @GetMapping
-    public @ResponseBody List<Course> getCourses() {
+    public @ResponseBody List<CourseDTO> getCourses() {
         return courseService.findAll();
     }
 
     @GetMapping(path = "/{id}")
-    public Course findById(@PathVariable("id") @NotNull @Positive Long id){
+    public CourseDTO findById(@PathVariable("id") @NotNull @Positive Long id){
         return courseService.findById(id);
     }
 
     @PostMapping
 //    @ResponseStatus(code = HttpStatus.CREATED) <-- forma alternativa ao response entity
-    public ResponseEntity<Course> save(@RequestBody @Valid Course course){
+    public ResponseEntity<CourseDTO> save(@RequestBody @Valid @NotNull CourseDTO course){
         return ResponseEntity.status(HttpStatus.CREATED).body(courseService.save(course));
     }
 
     @PutMapping(path = "/{id}")
-    public Course update(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid Course course) {
+    public CourseDTO update(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid @NotNull CourseDTO course) {
         return courseService.update(id, course);
     }
 
