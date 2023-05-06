@@ -13,7 +13,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import java.util.List;
 
-@Validated // <-- Para reconhecer validações a nivel de classe
+@Validated // <-- Para reconhecer validações a nivel de classe. EX @Positive Long id
 @RestController
 @RequestMapping(path = "/api/courses")
 public class CourseController {
