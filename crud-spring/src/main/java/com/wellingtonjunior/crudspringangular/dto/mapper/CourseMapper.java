@@ -2,6 +2,7 @@ package com.wellingtonjunior.crudspringangular.dto.mapper;
 
 import com.wellingtonjunior.crudspringangular.domain.Course;
 import com.wellingtonjunior.crudspringangular.dto.CourseDTO;
+import com.wellingtonjunior.crudspringangular.enums.Category;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -12,7 +13,7 @@ public class CourseMapper {
           return null;
         }
 
-        return new CourseDTO(course.getId(), course.getName(), course.getCategory());
+        return new CourseDTO(course.getId(), course.getName(), "TMP");
     }
 
     public Course toEntity(CourseDTO courseDTO){
@@ -28,7 +29,7 @@ public class CourseMapper {
         }
 
         course.setName(courseDTO.name());
-        course.setCategory(courseDTO.category());
+        course.setCategory(Category.FRONT_END);
         course.setStatus("Ativo");
 
         return course;

@@ -2,6 +2,8 @@ package com.wellingtonjunior.crudspringangular.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.wellingtonjunior.crudspringangular.enums.Category;
+import com.wellingtonjunior.crudspringangular.enums.converters.CatetoryConverter;
 import lombok.Data;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -32,10 +34,9 @@ public class Course {
     private String name;
 
     @NotNull
-    @Length(max = 10)
-    @Pattern(regexp = "Back-end|Front-end")
     @Column(length = 10, nullable = false)
-    private String category;
+    @Convert(converter = CatetoryConverter.class) //<-- Converte ENUM para String e String para ENUM
+    private Category category;
 
     @NotNull
     @Length(max = 10)
