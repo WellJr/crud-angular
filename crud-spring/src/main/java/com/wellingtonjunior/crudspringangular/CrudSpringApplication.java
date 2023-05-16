@@ -2,6 +2,7 @@ package com.wellingtonjunior.crudspringangular;
 
 import com.wellingtonjunior.crudspringangular.domain.Course;
 import com.wellingtonjunior.crudspringangular.enums.Category;
+import com.wellingtonjunior.crudspringangular.enums.Status;
 import com.wellingtonjunior.crudspringangular.repository.CourseRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -22,7 +23,7 @@ public class CrudSpringApplication {
 			Course c = new Course();
 			c.setName("Angular com Spring");
 			c.setCategory(Category.FRONT_END);
-			c.setStatus("Ativo");
+			c.setStatus(Status.ACTIVE);
 
 			courseRepository.save(c);
 		};

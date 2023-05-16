@@ -2,7 +2,6 @@ package com.wellingtonjunior.crudspringangular.service;
 
 import com.wellingtonjunior.crudspringangular.dto.CourseDTO;
 import com.wellingtonjunior.crudspringangular.dto.mapper.CourseMapper;
-import com.wellingtonjunior.crudspringangular.enums.Category;
 import com.wellingtonjunior.crudspringangular.exeption.RecordNotFoundException;
 import com.wellingtonjunior.crudspringangular.repository.CourseRepository;
 import jakarta.validation.Valid;
@@ -51,7 +50,7 @@ public class CourseService {
         return courseRepository.findById(id)
                 .map(recordFound -> {
                     recordFound.setName(course.name());
-                    recordFound.setCategory(Category.FRONT_END);
+                    recordFound.setCategory(courseMapper.convertCategoryValue(course.category()));
                     return courseMapper.toDTO(courseRepository.save(recordFound));
                 }).orElseThrow(() -> new RecordNotFoundException(id));
     }

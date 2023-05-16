@@ -3,6 +3,7 @@ package com.wellingtonjunior.crudspringangular.dto.mapper;
 import com.wellingtonjunior.crudspringangular.domain.Course;
 import com.wellingtonjunior.crudspringangular.dto.CourseDTO;
 import com.wellingtonjunior.crudspringangular.enums.Category;
+import com.wellingtonjunior.crudspringangular.enums.Status;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,7 +14,7 @@ public class CourseMapper {
           return null;
         }
 
-        return new CourseDTO(course.getId(), course.getName(), "TMP");
+        return new CourseDTO(course.getId(), course.getName(), course.getCategory().getValue());
     }
 
     public Course toEntity(CourseDTO courseDTO){
@@ -29,9 +30,23 @@ public class CourseMapper {
         }
 
         course.setName(courseDTO.name());
-        course.setCategory(Category.FRONT_END);
-        course.setStatus("Ativo");
+
+        course.setCategory(convertCategoryValue(courseDTO.category()));
 
         return course;
     }
+
+    public Category convertCategoryValue(String value){
+        if(value == null) {
+            return null;
+        }
+
+        return switch (value) {
+            case "Front-end" -> Category.FRONT_END;
+            case "Back-end" -> Category.BACK_END;
+            default -> throw new IllegalArgumentException("Categoria Inválida: " + value);
+        };
+
+    }
+
 }
