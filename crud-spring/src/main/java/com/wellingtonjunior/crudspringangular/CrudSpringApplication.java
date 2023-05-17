@@ -10,6 +10,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.Arrays;
+
 @SpringBootApplication
 public class CrudSpringApplication {
 
@@ -28,10 +30,17 @@ public class CrudSpringApplication {
 
 			Lesson lesson = new Lesson();
 			lesson.setName("Introdução");
-			lesson.setYoutubeUrl("https://youtu.be/Nb4uxLxdvxo");
+			lesson.setYoutubeUrl("Nb4uxLxdvxo");
 			lesson.setCourse(c);
 
-			c.getLessons().add(lesson);
+			Lesson lesson1 = new Lesson();
+			lesson1.setName("Angular");
+			lesson1.setYoutubeUrl("Nb4uxLxdvxo2");
+			lesson1.setCourse(c);
+
+			c.getLessons().addAll(Arrays.asList(lesson, lesson1));
+
+
 
 			courseRepository.save(c);
 		};
