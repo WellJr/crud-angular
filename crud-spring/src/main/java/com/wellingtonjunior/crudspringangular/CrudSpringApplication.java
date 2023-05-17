@@ -1,6 +1,7 @@
 package com.wellingtonjunior.crudspringangular;
 
 import com.wellingtonjunior.crudspringangular.domain.Course;
+import com.wellingtonjunior.crudspringangular.domain.Lesson;
 import com.wellingtonjunior.crudspringangular.enums.Category;
 import com.wellingtonjunior.crudspringangular.enums.Status;
 import com.wellingtonjunior.crudspringangular.repository.CourseRepository;
@@ -24,6 +25,13 @@ public class CrudSpringApplication {
 			c.setName("Angular com Spring");
 			c.setCategory(Category.FRONT_END);
 			c.setStatus(Status.ACTIVE);
+
+			Lesson lesson = new Lesson();
+			lesson.setName("Introdução");
+			lesson.setYoutubeUrl("https://youtu.be/Nb4uxLxdvxo");
+			lesson.setCourse(c);
+
+			c.getLessons().add(lesson);
 
 			courseRepository.save(c);
 		};
