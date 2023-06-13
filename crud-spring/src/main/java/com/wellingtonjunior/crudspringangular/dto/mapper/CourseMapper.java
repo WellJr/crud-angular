@@ -2,9 +2,14 @@ package com.wellingtonjunior.crudspringangular.dto.mapper;
 
 import com.wellingtonjunior.crudspringangular.domain.Course;
 import com.wellingtonjunior.crudspringangular.dto.CourseDTO;
+import com.wellingtonjunior.crudspringangular.dto.LessonDTO;
 import com.wellingtonjunior.crudspringangular.enums.Category;
 import com.wellingtonjunior.crudspringangular.enums.Status;
+import org.apache.catalina.LifecycleState;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class CourseMapper {
@@ -13,8 +18,11 @@ public class CourseMapper {
         if(course == null) {
           return null;
         }
+        List<LessonDTO> lessons = course.getLessons()
+                .stream()
+                .map(lesson -> new LessonDTO(lesson.getId(), lesson.getName(), lesson.getYoutubeUrl())).collect(Collectors.toList());
 
-        return new CourseDTO(course.getId(), course.getName(), course.getCategory().getValue(), course.getLessons());
+        return new CourseDTO(course.getId(), course.getName(), course.getCategory().getValue(), lessons);
     }
 
     public Course toEntity(CourseDTO courseDTO){
